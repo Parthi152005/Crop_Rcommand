@@ -6,14 +6,10 @@ from datetime import datetime
 from typing import Any, Dict, List
 
 import numpy as np
-import torch
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from PIL import Image
-from torchvision import transforms
-
-from .npk_model import NPKRegressor
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
@@ -223,20 +219,36 @@ app.add_middleware(
 )
 
 
-device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 npk_model = None
 model_loaded = False
-inference_transform = transforms.Compose([
-    transforms.Resize((224, 224)),
-    transforms.ToTensor(),
-    transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
-])
+TORCH_AVAILABLE = False
+torch = None
+device = None
+inference_transform = None
 
 
 @app.on_event("startup")
 def load_models_once() -> None:
-    global npk_model, model_loaded
-    if os.path.exists(NPK_MODEL_PATH):
+    global npk_model, model_loaded, TORCH_AVAILABLE, torch, device, inference_transform
+    try:
+        import torch as _torch
+        from torchvision import transforms as _transforms
+        from .npk_model import NPKRegressor
+
+        torch = _torch
+        device = _torch.device("cuda" if _torch.cuda.is_available() else "cpu")
+        inference_transform = _transforms.Compose([
+            _transforms.Resize((224, 224)),
+            _transforms.ToTensor(),
+            _transforms.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]),
+        ])
+        TORCH_AVAILABLE = True
+    except Exception:
+        TORCH_AVAILABLE = False
+        model_loaded = False
+        print("Warning: torch/torchvision unavailable. Running in fallback inference mode.")
+
+    if TORCH_AVAILABLE and os.path.exists(NPK_MODEL_PATH):
         npk_model = NPKRegressor().to(device)
         state_dict = torch.load(NPK_MODEL_PATH, map_location=device)
         npk_model.load_state_dict(state_dict)
@@ -244,10 +256,9 @@ def load_models_once() -> None:
         model_loaded = True
         print(f"Loaded trained model from {NPK_MODEL_PATH}")
     else:
-        # Keep API available for web usage even without trained weights.
         model_loaded = False
         print(
-            f"Warning: model file not found at {NPK_MODEL_PATH}. "
+            f"Warning: model file not found or ML runtime unavailable at {NPK_MODEL_PATH}. "
             "Running in fallback inference mode."
         )
     init_db()
@@ -407,7 +418,7 @@ async def predict(image: UploadFile = File(...)) -> Dict[str, Any]:
     validation = assess_soil_image(image_bytes)
     if not validation["isSoil"]:
         raise HTTPException(status_code=400, detail="Unknown image uploaded, please upload soil image.")
-    if model_loaded and npk_model is not None:
+    if model_loaded and npk_model is not None and TORCH_AVAILABLE and torch is not None and inference_transform is not None:
         pil_image = Image.open(io.BytesIO(image_bytes)).convert("RGB")
         tensor = inference_transform(pil_image).unsqueeze(0).to(device)
         with torch.no_grad():
