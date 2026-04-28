@@ -1,0 +1,14 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  margin: 0;
+  font-family: Inter, "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #1e293b, #020617 55%);
+  color: #e2e8f0;
+}
+
+* {
+  box-sizing: border-box;
+}
