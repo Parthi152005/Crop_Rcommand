@@ -3,3 +3,11 @@ build
 .env
 .env.local
 .netlify
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local SQLite (generated at runtime)
+ml-backend/soil_predictions.db

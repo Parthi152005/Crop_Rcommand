@@ -181,8 +181,8 @@ function App() {
   const t = translations[language];
 
   const LabeledValue = ({ label, value }) => (
-    <div className="rounded-lg bg-slate-900/40 p-2 text-sm flex items-center justify-between">
-      <span className="text-slate-300">{label}</span>
+    <div className="rounded-lg border border-emerald-500/20 bg-emerald-950/45 p-2 text-sm flex items-center justify-between">
+      <span className="text-emerald-100/80">{label}</span>
       <span className="font-medium">{value || "-"}</span>
     </div>
   );
@@ -596,15 +596,15 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen p-6 md:p-10 text-slate-100">
+    <div className="min-h-screen p-6 md:p-10 text-emerald-50">
       <div className="mx-auto max-w-6xl space-y-6">
-        <header className="rounded-2xl border border-white/20 bg-glass p-6 shadow-glass backdrop-blur-lg">
+        <header className="rounded-2xl border border-emerald-400/30 bg-emerald-950/45 p-6 shadow-[0_14px_50px_rgba(16,185,129,0.2)] backdrop-blur-lg">
           <div className="flex items-start justify-between gap-4">
             <h1 className="text-3xl font-bold">{t.appTitle}</h1>
             <div className="flex items-center gap-2 text-sm">
               <span>{t.language}</span>
               <select
-                className="rounded bg-slate-900/70 px-2 py-1"
+                className="rounded border border-emerald-500/40 bg-emerald-900/70 px-2 py-1 text-emerald-50"
                 value={language}
                 onChange={(e) => setLanguage(e.target.value)}
               >
@@ -614,7 +614,7 @@ function App() {
               </select>
             </div>
           </div>
-          <p className="mt-2 text-slate-300">
+          <p className="mt-2 text-emerald-100/80">
             {t.appSubtitle}
           </p>
         </header>
@@ -627,7 +627,7 @@ function App() {
         )}
 
         <div className="grid gap-6 lg:grid-cols-2">
-          <section className="rounded-2xl border border-white/20 bg-glass p-6 shadow-glass backdrop-blur-lg">
+          <section className="rounded-2xl border border-emerald-400/30 bg-emerald-950/45 p-6 shadow-[0_14px_45px_rgba(16,185,129,0.18)] backdrop-blur-lg">
             <h2 className="flex items-center gap-2 text-xl font-semibold">
               <Sprout size={20} /> {t.cropRecommendation}
             </h2>
@@ -639,24 +639,24 @@ function App() {
               <LabeledValue label={t.temperature} value={soilForm.weatherTemp} />
               <LabeledValue label={t.humidity} value={soilForm.weatherHumidity} />
               <LabeledValue label={t.rainfall} value={soilForm.weatherRainfall} />
-              {weatherStatus && <p className="text-sm text-slate-300">{weatherStatus}</p>}
-              {loadingKey === "soil-analyze" && <p className="text-sm text-slate-300">{t.analyzeSoil}</p>}
-              <p className="text-sm text-slate-300">{t.captureSoil}</p>
+              {weatherStatus && <p className="text-sm text-emerald-100/80">{weatherStatus}</p>}
+              {loadingKey === "soil-analyze" && <p className="text-sm text-emerald-100/80">{t.analyzeSoil}</p>}
+              <p className="text-sm text-emerald-100/80">{t.captureSoil}</p>
               <button
                 type="button"
-                className="w-full rounded-lg bg-teal-700 p-2 hover:bg-teal-600"
+                className="w-full rounded-lg bg-emerald-700 p-2 hover:bg-emerald-600"
                 onClick={() => openCamera("soil")}
               >
                 {t.openLandCamera}
               </button>
-              {landCameraStatus && <p className="text-sm text-slate-300">{landCameraStatus}</p>}
+              {landCameraStatus && <p className="text-sm text-emerald-100/80">{landCameraStatus}</p>}
               {landCameraOpen && (
-                <div className="space-y-2 rounded-lg bg-slate-900/60 p-3">
+                <div className="space-y-2 rounded-lg border border-emerald-500/20 bg-emerald-950/60 p-3">
                   <video ref={landVideoRef} className="w-full rounded-lg" autoPlay playsInline muted />
                   <canvas ref={landCanvasRef} className="hidden" />
                   <button
                     type="button"
-                    className="w-full rounded-lg bg-cyan-700 p-2 hover:bg-cyan-600 disabled:opacity-60"
+                    className="w-full rounded-lg bg-green-700 p-2 hover:bg-green-600 disabled:opacity-60"
                     onClick={() => captureFromCamera("soil")}
                     disabled={loadingKey === "capture-soil"}
                   >
@@ -665,41 +665,41 @@ function App() {
                 </div>
               )}
               {soilForm.imageBase64 && (
-                <div className="space-y-2 rounded-lg bg-slate-900/60 p-3">
+                <div className="space-y-2 rounded-lg border border-emerald-500/20 bg-emerald-950/60 p-3">
                   <img src={soilForm.imageBase64} alt="Captured soil" className="w-full rounded-lg object-cover max-h-56" />
-                  <button type="button" className="w-full rounded-lg bg-slate-700 p-2 hover:bg-slate-600" onClick={() => retakeImage("soil")}>
+                  <button type="button" className="w-full rounded-lg bg-emerald-800 p-2 hover:bg-emerald-700" onClick={() => retakeImage("soil")}>
                     {t.retake}
                   </button>
                 </div>
               )}
-              <input type="file" accept="image/*" className="w-full rounded-lg bg-slate-900/60 p-2" onChange={(e) => onImageUpload(e.target.files[0], "soil")} required={!soilForm.imageBase64} />
-              <button type="submit" className="w-full rounded-lg bg-emerald-600 p-2 font-medium hover:bg-emerald-500 disabled:opacity-60" disabled={loadingKey === "crop" || Boolean(weatherStatus)}>
+              <input type="file" accept="image/*" className="w-full rounded-lg border border-emerald-500/25 bg-emerald-950/60 p-2" onChange={(e) => onImageUpload(e.target.files[0], "soil")} required={!soilForm.imageBase64} />
+              <button type="submit" className="w-full rounded-lg bg-lime-600 p-2 font-medium text-emerald-950 hover:bg-lime-500 disabled:opacity-60" disabled={loadingKey === "crop" || Boolean(weatherStatus)}>
                 {loadingKey === "crop" ? <Loader2 className="mx-auto animate-spin" size={18} /> : t.getCropSuggestions}
               </button>
             </form>
           </section>
 
-          <section className="rounded-2xl border border-white/20 bg-glass p-6 shadow-glass backdrop-blur-lg">
+          <section className="rounded-2xl border border-emerald-400/30 bg-emerald-950/45 p-6 shadow-[0_14px_45px_rgba(16,185,129,0.18)] backdrop-blur-lg">
             <h2 className="flex items-center gap-2 text-xl font-semibold">
               <Leaf size={20} /> {t.leafDetection}
             </h2>
             <form className="mt-4 space-y-3" onSubmit={runLeafDetection}>
-              <p className="text-sm text-slate-300">{t.captureLeaf}</p>
+              <p className="text-sm text-emerald-100/80">{t.captureLeaf}</p>
               <button
                 type="button"
-                className="w-full rounded-lg bg-teal-700 p-2 hover:bg-teal-600"
+                className="w-full rounded-lg bg-emerald-700 p-2 hover:bg-emerald-600"
                 onClick={() => openCamera("leaf")}
               >
                 {t.openLeafCamera}
               </button>
-              {leafCameraStatus && <p className="text-sm text-slate-300">{leafCameraStatus}</p>}
+              {leafCameraStatus && <p className="text-sm text-emerald-100/80">{leafCameraStatus}</p>}
               {leafCameraOpen && (
-                <div className="space-y-2 rounded-lg bg-slate-900/60 p-3">
+                <div className="space-y-2 rounded-lg border border-emerald-500/20 bg-emerald-950/60 p-3">
                   <video ref={leafVideoRef} className="w-full rounded-lg" autoPlay playsInline muted />
                   <canvas ref={leafCanvasRef} className="hidden" />
                   <button
                     type="button"
-                    className="w-full rounded-lg bg-cyan-700 p-2 hover:bg-cyan-600 disabled:opacity-60"
+                    className="w-full rounded-lg bg-green-700 p-2 hover:bg-green-600 disabled:opacity-60"
                     onClick={() => captureFromCamera("leaf")}
                     disabled={loadingKey === "capture-leaf"}
                   >
@@ -708,20 +708,20 @@ function App() {
                 </div>
               )}
               {leafForm.imageBase64 && (
-                <div className="space-y-2 rounded-lg bg-slate-900/60 p-3">
+                <div className="space-y-2 rounded-lg border border-emerald-500/20 bg-emerald-950/60 p-3">
                   <img src={leafForm.imageBase64} alt="Captured leaf" className="w-full rounded-lg object-cover max-h-56" />
-                  <button type="button" className="w-full rounded-lg bg-slate-700 p-2 hover:bg-slate-600" onClick={() => retakeImage("leaf")}>
+                  <button type="button" className="w-full rounded-lg bg-emerald-800 p-2 hover:bg-emerald-700" onClick={() => retakeImage("leaf")}>
                     {t.retake}
                   </button>
                 </div>
               )}
-              <input type="file" accept="image/*" className="w-full rounded-lg bg-slate-900/60 p-2" onChange={(e) => onImageUpload(e.target.files[0], "leaf")} required={!leafForm.imageBase64} />
-              <button type="submit" className="w-full rounded-lg bg-indigo-600 p-2 font-medium hover:bg-indigo-500 disabled:opacity-60" disabled={loadingKey === "leaf"}>
+              <input type="file" accept="image/*" className="w-full rounded-lg border border-emerald-500/25 bg-emerald-950/60 p-2" onChange={(e) => onImageUpload(e.target.files[0], "leaf")} required={!leafForm.imageBase64} />
+              <button type="submit" className="w-full rounded-lg bg-lime-600 p-2 font-medium text-emerald-950 hover:bg-lime-500 disabled:opacity-60" disabled={loadingKey === "leaf"}>
                 {loadingKey === "leaf" ? <Loader2 className="mx-auto animate-spin" size={18} /> : t.detectLeafDisease}
               </button>
             </form>
             {leafResult && (
-              <div className="mt-4 rounded-lg bg-slate-900/60 p-3 text-sm">
+              <div className="mt-4 rounded-lg border border-emerald-500/20 bg-emerald-950/60 p-3 text-sm">
                 <p><strong>{t.disease}:</strong> {leafResult.disease}</p>
                 <p><strong>{t.confidence}:</strong> {leafResult.confidence}%</p>
                 <p><strong>{t.treatment}:</strong> {leafResult.treatment}</p>
@@ -731,20 +731,20 @@ function App() {
         </div>
 
         {cropResult && (
-          <section className="rounded-2xl border border-white/20 bg-glass p-6 shadow-glass backdrop-blur-lg space-y-4">
+          <section className="rounded-2xl border border-emerald-400/30 bg-emerald-950/45 p-6 shadow-[0_14px_45px_rgba(16,185,129,0.18)] backdrop-blur-lg space-y-4">
             <h2 className="text-xl font-semibold">{t.recommendationResults}</h2>
             <div className="grid gap-4 md:grid-cols-2">
-              <div className="rounded-lg bg-slate-900/60 p-4">
+              <div className="rounded-lg border border-emerald-500/20 bg-emerald-950/60 p-4">
                 <h3 className="font-semibold">{t.topCrops}</h3>
                 <div className="mt-2 space-y-2">
                   {cropResult.recommendations.map((item) => (
-                    <button key={item.crop} className={`w-full rounded-lg p-2 text-left ${topCrop === item.crop ? "bg-emerald-700/70" : "bg-slate-800/70"}`} onClick={() => setSelectedCrop(item.crop)}>
+                    <button key={item.crop} className={`w-full rounded-lg p-2 text-left ${topCrop === item.crop ? "bg-lime-600/70 text-emerald-950" : "bg-emerald-900/70 text-emerald-50"}`} onClick={() => setSelectedCrop(item.crop)}>
                       {item.crop} ({item.probability}%)
                     </button>
                   ))}
                 </div>
               </div>
-              <div className="rounded-lg bg-slate-900/60 p-4">
+              <div className="rounded-lg border border-emerald-500/20 bg-emerald-950/60 p-4">
                 <h3 className="font-semibold">{t.topCropPlan}: {topCrop}</h3>
                 <p className="text-sm mt-2"><strong>Soil Name:</strong> {activePlan?.soilName || cropResult.soilName || "-"}</p>
                 <ul className="mt-2 text-sm space-y-1">
@@ -753,7 +753,7 @@ function App() {
                   <li><strong>Disease:</strong> {activePlan?.diseasePrediction}</li>
                   <li><strong>Harvest:</strong> {activePlan?.harvestTimeline}</li>
                 </ul>
-                <div className="mt-3 rounded-lg bg-slate-800/60 p-3">
+                <div className="mt-3 rounded-lg border border-emerald-500/20 bg-emerald-900/55 p-3">
                   <h4 className="font-medium text-sm mb-2">{t.timePeriodInstructions}</h4>
                   <ul className="text-xs space-y-1">
                     {(activePlan?.timePeriods || []).map((item) => (
@@ -767,21 +767,21 @@ function App() {
             </div>
 
             <div className="flex flex-wrap gap-3">
-              <button className="rounded-lg bg-amber-600 px-4 py-2 hover:bg-amber-500 flex items-center gap-2 disabled:opacity-60" onClick={runFertilizerPlan} disabled={loadingKey === "fertilizer"}>
+              <button className="rounded-lg bg-emerald-600 px-4 py-2 hover:bg-emerald-500 flex items-center gap-2 disabled:opacity-60" onClick={runFertilizerPlan} disabled={loadingKey === "fertilizer"}>
                 {loadingKey === "fertilizer" ? <Loader2 className="animate-spin" size={16} /> : <TestTube2 size={16} />}
                 {t.generateFertilizer}
               </button>
-              <button className="rounded-lg bg-sky-600 px-4 py-2 hover:bg-sky-500 flex items-center gap-2" onClick={generatePdf}>
+              <button className="rounded-lg bg-green-700 px-4 py-2 hover:bg-green-600 flex items-center gap-2" onClick={generatePdf}>
                 <FileDown size={16} /> {t.exportPdf}
               </button>
             </div>
 
             {fertilizerResult?.length > 0 && (
-              <div className="rounded-lg bg-slate-900/60 p-4">
+              <div className="rounded-lg border border-emerald-500/20 bg-emerald-950/60 p-4">
                 <h3 className="font-semibold">{t.fertilizerTop3}</h3>
                 <div className="mt-2 space-y-3">
                   {fertilizerResult.map((plan) => (
-                    <div key={plan.crop} className="rounded-lg bg-slate-800/70 p-3">
+                    <div key={plan.crop} className="rounded-lg border border-emerald-500/15 bg-emerald-900/55 p-3">
                       <p className="text-sm"><strong>{t.crop}:</strong> {plan.crop}</p>
                       <p className="text-sm"><strong>{t.fertilizerName}:</strong> {plan.type}</p>
                       <p className="text-sm"><strong>{t.quantity}:</strong> {plan.quantity}</p>

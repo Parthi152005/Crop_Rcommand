@@ -5,10 +5,19 @@
 body {
   margin: 0;
   font-family: Inter, "Segoe UI", sans-serif;
-  background: radial-gradient(circle at top, #1e293b, #020617 55%);
-  color: #e2e8f0;
+  background:
+    radial-gradient(circle at 10% 10%, rgba(16, 185, 129, 0.2), transparent 30%),
+    radial-gradient(circle at 90% 0%, rgba(34, 197, 94, 0.12), transparent 28%),
+    linear-gradient(135deg, #02170f 0%, #031d12 45%, #010f09 100%);
+  color: #ecfdf5;
 }
 
 * {
   box-sizing: border-box;
+}
+
+input,
+select,
+textarea {
+  color: #ecfdf5;
 }
